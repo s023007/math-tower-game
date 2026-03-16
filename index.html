@@ -1,97 +1,444 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>تحدي البرج الرياضي</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explorer's Math Tower</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-<style>
+    :root {
+      --bg-1: #07132d;
+      --bg-2: #0c1f46;
+      --card: rgba(10, 22, 50, 0.78);
+      --stroke: rgba(255,255,255,0.12);
+      --gold: #f7b500;
+      --gold-dark: #e59d00;
+      --text: #f8fbff;
+      --muted: #c8d3ea;
+      --accent: #5eead4;
+      --danger: #ff7676;
+      --success: #7ef29a;
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
 
-body{
-font-family:Arial;
-text-align:center;
-background:#0f172a;
-color:white;
-}
+    body {
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 28%),
+        linear-gradient(180deg, var(--bg-2), var(--bg-1));
+      overflow-x: hidden;
+      position: relative;
+    }
 
-.container{
-margin-top:120px;
-}
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(247,181,0,0.15), transparent 16%),
+        radial-gradient(circle at 80% 25%, rgba(94,234,212,0.12), transparent 14%),
+        radial-gradient(circle at 50% 85%, rgba(255,255,255,0.06), transparent 20%);
+      z-index: 0;
+    }
 
-input,select{
-padding:12px;
-margin:10px;
-font-size:18px;
-width:220px;
-}
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+    }
 
-button{
-padding:12px 25px;
-font-size:18px;
-background:#f59e0b;
-border:none;
-cursor:pointer;
-}
+    .shell {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: stretch;
+    }
 
-button:hover{
-background:#d97706;
-}
+    .hero {
+      padding: 38px 30px;
+      border: 1px solid var(--stroke);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-</style>
+    .hero::before {
+      content: "";
+      position: absolute;
+      right: -60px;
+      top: -60px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(247,181,0,0.22), transparent 60%);
+      filter: blur(4px);
+    }
 
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--stroke);
+      color: var(--muted);
+      font-size: 14px;
+      width: fit-content;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: 0.95;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.8;
+      font-size: 16px;
+      margin-bottom: 26px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .feature {
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      border-radius: 20px;
+      padding: 16px 14px;
+    }
+
+    .feature strong {
+      display: block;
+      font-size: 20px;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .feature span {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .card {
+      border: 1px solid var(--stroke);
+      background: var(--card);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card-header {
+      margin-bottom: 22px;
+    }
+
+    .card-title {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .card-subtitle {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      color: #dfe9ff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .input,
+    .select {
+      width: 100%;
+      padding: 15px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    .input::placeholder {
+      color: #9fb1d1;
+    }
+
+    .input:focus,
+    .select:focus {
+      border-color: rgba(247,181,0,0.7);
+      box-shadow: 0 0 0 4px rgba(247,181,0,0.12);
+    }
+
+    .select option {
+      color: #111;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #aebddd;
+      line-height: 1.7;
+      margin: 8px 0 18px;
+    }
+
+    .cta {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #0b1431;
+      background: linear-gradient(180deg, #ffca3a, var(--gold));
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 12px 24px rgba(247,181,0,0.25);
+    }
+
+    .cta:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(180deg, #ffd45c, var(--gold-dark));
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .mini {
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--stroke);
+      text-align: center;
+    }
+
+    .mini b {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .mini small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .message {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      display: none;
+      line-height: 1.7;
+    }
+
+    .message.error {
+      display: block;
+      background: rgba(255, 118, 118, 0.12);
+      border: 1px solid rgba(255, 118, 118, 0.28);
+      color: #ffd0d0;
+    }
+
+    .message.success {
+      display: block;
+      background: rgba(126, 242, 154, 0.12);
+      border: 1px solid rgba(126, 242, 154, 0.28);
+      color: #d8ffe3;
+    }
+
+    @media (max-width: 900px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .hero, .card {
+        min-height: auto;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="bg-glow"></div>
 
-<div class="container">
+  <main class="page">
+    <section class="shell">
+      <div class="hero">
+        <div>
+          <div class="tag">Grade 11 Advanced Math Competition</div>
+          <h1>Explorer’s <span>Math Tower</span></h1>
+          <p>
+            Climb the ancient tower, solve math challenges, and compete for the top 3 places in your class.
+            Fast thinking gives you an edge, but every student gets a fair chance.
+          </p>
+        </div>
 
-<h1>تحدي البرج الرياضي</h1>
+        <div class="features">
+          <div class="feature">
+            <strong>٣</strong>
+            <span>Attempts for each student</span>
+          </div>
+          <div class="feature">
+            <strong>٥</strong>
+            <span>Questions per run</span>
+          </div>
+          <div class="feature">
+            <strong>٣٠s</strong>
+            <span>Time for each question</span>
+          </div>
+        </div>
+      </div>
 
-<p>مغامرة المستكشف</p>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Player Registration</div>
+          <div class="card-subtitle">
+            Enter your details to start the tower challenge.
+          </div>
+        </div>
 
-<input id="name" placeholder="اكتب اسمك">
+        <div class="form-group">
+          <label class="label" for="name">Full Name</label>
+          <input class="input" id="name" type="text" placeholder="Enter your full name">
+        </div>
 
-<br>
+        <div class="form-group">
+          <label class="label" for="email">Email Address</label>
+          <input class="input" id="email" type="email" placeholder="Enter your email">
+        </div>
 
-<input id="email" placeholder="الإيميل الوزاري">
+        <div class="form-group">
+          <label class="label" for="class">Class</label>
+          <select class="select" id="class">
+            <option value="">Select your class</option>
+            <option value="11/3">11/3</option>
+            <option value="11/4">11/4</option>
+          </select>
+        </div>
 
-<br>
+        <div class="note">
+          One registration per email on this device for now. Later, we can upgrade this to a full online system with secure validation and class ranking.
+        </div>
 
-<select id="class">
+        <button class="cta" onclick="startGame()">Enter the Tower</button>
 
-<option value="">اختر الصف</option>
-<option>١١/٣</option>
-<option>١١/٤</option>
+        <div id="message" class="message"></div>
 
-</select>
+        <div class="mini-stats">
+          <div class="mini">
+            <b>Permutations</b>
+            <small>Fast decision making</small>
+          </div>
+          <div class="mini">
+            <b>Combinations</b>
+            <small>Smart choices matter</small>
+          </div>
+          <div class="mini">
+            <b>Binomial</b>
+            <small>Precision wins points</small>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-<br>
+  <script>
+    function showMessage(text, type) {
+      const box = document.getElementById("message");
+      box.textContent = text;
+      box.className = "message " + type;
+    }
 
-<button onclick="startGame()">ابدأ اللعب</button>
+    function startGame() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim().toLowerCase();
+      const className = document.getElementById("class").value;
 
-</div>
+      if (!name || !email || !className) {
+        showMessage("Please fill in all fields before entering the game.", "error");
+        return;
+      }
 
-<script>
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        showMessage("Please enter a valid email address.", "error");
+        return;
+      }
 
-function startGame(){
+      const registeredEmails = JSON.parse(localStorage.getItem("registeredEmails") || "[]");
 
-let name=document.getElementById("name").value
-let email=document.getElementById("email").value
-let className=document.getElementById("class").value
+      if (registeredEmails.includes(email)) {
+        showMessage("This email has already been used on this device.", "error");
+        return;
+      }
 
-if(name==""||email==""||className==""){
-alert("يرجى إدخال جميع البيانات")
-return
-}
+      registeredEmails.push(email);
+      localStorage.setItem("registeredEmails", JSON.stringify(registeredEmails));
 
-localStorage.setItem("playerName",name)
-localStorage.setItem("playerEmail",email)
-localStorage.setItem("playerClass",className)
+      localStorage.setItem("playerName", name);
+      localStorage.setItem("playerEmail", email);
+      localStorage.setItem("playerClass", className);
 
-window.location="game.html"
+      showMessage("Registration completed. Moving to the game...", "success");
 
-}
-
-</script>
-
+      setTimeout(() => {
+        window.location.href = "game.html";
+      }, 800);
+    }
+  </script>
 </body>
 </html>
