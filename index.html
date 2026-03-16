@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>تحدي البرج الرياضي</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+background:#0f172a;
+color:white;
+}
+
+.container{
+margin-top:120px;
+}
+
+input,select{
+padding:12px;
+margin:10px;
+font-size:18px;
+width:220px;
+}
+
+button{
+padding:12px 25px;
+font-size:18px;
+background:#f59e0b;
+border:none;
+cursor:pointer;
+}
+
+button:hover{
+background:#d97706;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>تحدي البرج الرياضي</h1>
+
+<p>مغامرة المستكشف</p>
+
+<input id="name" placeholder="اكتب اسمك">
+
+<br>
+
+<input id="email" placeholder="الإيميل الوزاري">
+
+<br>
+
+<select id="class">
+
+<option value="">اختر الصف</option>
+<option>١١/٣</option>
+<option>١١/٤</option>
+
+</select>
+
+<br>
+
+<button onclick="startGame()">ابدأ اللعب</button>
+
+</div>
+
+<script>
+
+function startGame(){
+
+let name=document.getElementById("name").value
+let email=document.getElementById("email").value
+let className=document.getElementById("class").value
+
+if(name==""||email==""||className==""){
+alert("يرجى إدخال جميع البيانات")
+return
+}
+
+localStorage.setItem("playerName",name)
+localStorage.setItem("playerEmail",email)
+localStorage.setItem("playerClass",className)
+
+window.location="game.html"
+
+}
+
+</script>
+
+</body>
+</html>
