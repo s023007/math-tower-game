@@ -1,699 +1,257 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Explorer's Math Tower</title>
-  <style>
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    :root{
-      --bg1:#07152f;
-      --bg2:#0b2249;
-      --card:rgba(8,18,42,.78);
-      --stroke:rgba(255,255,255,.12);
-      --gold:#f7b500;
-      --gold2:#ffcb3c;
-      --text:#f7fbff;
-      --muted:#c6d2ea;
-      --cyan:#69e4ff;
-      --green:#7ef29a;
-      --danger:#ff8b8b;
-      --shadow:0 20px 50px rgba(0,0,0,.35);
-    }
+<title>Explorer Math Tower</title>
 
-    body{
-      font-family: Arial, sans-serif;
-      min-height:100vh;
-      color:var(--text);
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,.08), transparent 28%),
-        linear-gradient(180deg,var(--bg2),var(--bg1));
-      overflow-x:hidden;
-      position:relative;
-    }
+<style>
 
-    .bg{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 15% 20%, rgba(247,181,0,.14), transparent 18%),
-        radial-gradient(circle at 85% 25%, rgba(105,228,255,.14), transparent 16%),
-        radial-gradient(circle at 50% 80%, rgba(255,255,255,.05), transparent 20%);
-      z-index:0;
-    }
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(#0b1c3d,#07122a);
+color:white;
+text-align:center;
+}
 
-    .page{
-      position:relative;
-      z-index:1;
-      width:100%;
-      max-width:1200px;
-      margin:auto;
-      padding:24px 16px 40px;
-    }
+h1{
+margin-top:30px;
+font-size:38px;
+}
 
-    .hero{
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:22px;
-      align-items:stretch;
-    }
+h2{
+margin-top:5px;
+color:#ffd36b;
+font-weight:normal;
+}
 
-    .hero-left,
-    .hero-right,
-    .gallery,
-    .info-box{
-      border:1px solid var(--stroke);
-      background:var(--card);
-      backdrop-filter:blur(10px);
-      box-shadow:var(--shadow);
-      border-radius:28px;
-    }
+.container{
+width:90%;
+max-width:500px;
+margin:auto;
+}
 
-    .hero-left{
-      padding:30px;
-      position:relative;
-      overflow:hidden;
-    }
+.form{
+margin-top:30px;
+}
 
-    .hero-left::before{
-      content:"";
-      position:absolute;
-      left:-70px;
-      top:-70px;
-      width:220px;
-      height:220px;
-      background:radial-gradient(circle, rgba(247,181,0,.18), transparent 60%);
-      border-radius:50%;
-    }
+input,select{
+width:100%;
+padding:14px;
+margin:10px 0;
+border-radius:10px;
+border:none;
+font-size:16px;
+}
 
-    .tag{
-      display:inline-block;
-      padding:10px 16px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.05);
-      border-radius:999px;
-      color:var(--muted);
-      font-size:14px;
-      margin-bottom:18px;
-    }
+button{
+width:100%;
+padding:15px;
+background:#ffb400;
+border:none;
+border-radius:12px;
+font-size:18px;
+cursor:pointer;
+font-weight:bold;
+}
 
-    .title-en{
-      font-size:clamp(32px, 6vw, 60px);
-      line-height:1;
-      font-weight:800;
-      letter-spacing:-1px;
-      margin-bottom:10px;
-    }
+button:hover{
+background:#ffc940;
+}
 
-    .title-en span{
-      color:var(--gold);
-    }
+.game-scene{
 
-    .title-ar{
-      font-size:24px;
-      color:#fff3cc;
-      margin-bottom:12px;
-      font-weight:700;
-    }
+position:relative;
+height:320px;
+margin-top:40px;
+border-radius:20px;
+background:linear-gradient(#1b2f5c,#0c1738);
+overflow:hidden;
 
-    .desc{
-      color:var(--muted);
-      line-height:1.9;
-      font-size:16px;
-      margin-bottom:24px;
-      max-width:620px;
-    }
+}
 
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-    }
+/* البرج */
 
-    .stat{
-      padding:16px 14px;
-      border-radius:20px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.04);
-      text-align:center;
-    }
+.tower{
+position:absolute;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:110px;
+height:240px;
+background:linear-gradient(#9da3ad,#5f6672);
+border-radius:12px;
+}
 
-    .stat strong{
-      display:block;
-      font-size:24px;
-      color:var(--gold);
-      margin-bottom:6px;
-    }
+/* المنصات */
 
-    .stat span{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.6;
-    }
+.platform{
+position:absolute;
+width:90px;
+height:18px;
+background:#aab0bb;
+border-radius:10px;
+}
 
-    .hero-right{
-      padding:26px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-    }
+.p1{bottom:80px;left:40px;}
+.p2{bottom:140px;left:180px;}
+.p3{bottom:200px;left:100px;}
 
-    .card-title{
-      font-size:28px;
-      margin-bottom:8px;
-      font-weight:800;
-    }
+/* اللاعب */
 
-    .card-sub{
-      color:var(--muted);
-      line-height:1.8;
-      font-size:14px;
-      margin-bottom:20px;
-    }
+.player{
 
-    .form-group{
-      margin-bottom:15px;
-    }
+position:absolute;
+bottom:100px;
+left:50px;
+width:40px;
+height:60px;
+background:#ffd36b;
+border-radius:10px;
 
-    .label{
-      display:block;
-      margin-bottom:8px;
-      font-size:14px;
-      font-weight:700;
-      color:#e6eeff;
-    }
+}
 
-    .input,.select{
-      width:100%;
-      border:none;
-      outline:none;
-      border-radius:16px;
-      padding:15px 16px;
-      font-size:16px;
-      color:white;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-    }
+/* الشجر */
 
-    .input::placeholder{
-      color:#9fb0cf;
-    }
+.tree{
+position:absolute;
+bottom:0;
+width:50px;
+height:110px;
+background:#2e7d32;
+border-radius:20px;
+}
 
-    .input:focus,.select:focus{
-      border-color:rgba(247,181,0,.75);
-      box-shadow:0 0 0 4px rgba(247,181,0,.12);
-    }
+.t1{left:10px;}
+.t2{right:10px;}
 
-    .select option{
-      color:#111;
-    }
+/* صندوق الكنز */
 
-    .note{
-      color:#b9c7e3;
-      font-size:13px;
-      line-height:1.8;
-      margin:10px 0 16px;
-    }
+.treasure{
+position:absolute;
+bottom:210px;
+right:60px;
+width:50px;
+height:40px;
+background:#b37a1f;
+border-radius:6px;
+}
 
-    .cta{
-      width:100%;
-      border:none;
-      border-radius:18px;
-      padding:16px;
-      font-size:17px;
-      font-weight:800;
-      cursor:pointer;
-      color:#0a1430;
-      background:linear-gradient(180deg,var(--gold2),var(--gold));
-      box-shadow:0 14px 28px rgba(247,181,0,.24);
-    }
+/* العملات */
 
-    .cta:hover{
-      filter:brightness(1.05);
-    }
+.coin{
 
-    .message{
-      display:none;
-      margin-top:14px;
-      padding:12px 14px;
-      border-radius:14px;
-      font-size:14px;
-      line-height:1.8;
-    }
+position:absolute;
+width:18px;
+height:18px;
+background:gold;
+border-radius:50%;
 
-    .message.error{
-      display:block;
-      background:rgba(255,139,139,.12);
-      color:#ffd4d4;
-      border:1px solid rgba(255,139,139,.28);
-    }
+}
 
-    .message.success{
-      display:block;
-      background:rgba(126,242,154,.12);
-      color:#dfffe8;
-      border:1px solid rgba(126,242,154,.28);
-    }
+.c1{bottom:110px;left:90px;}
+.c2{bottom:170px;left:220px;}
+.c3{bottom:230px;left:140px;}
 
-    .sections{
-      margin-top:22px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:22px;
-    }
+.note{
+margin-top:25px;
+color:#c7d0ff;
+font-size:15px;
+}
 
-    .gallery{
-      padding:22px;
-    }
+</style>
 
-    .section-title{
-      font-size:24px;
-      margin-bottom:8px;
-      font-weight:800;
-    }
-
-    .section-sub{
-      color:var(--muted);
-      line-height:1.8;
-      margin-bottom:18px;
-      font-size:14px;
-    }
-
-    .shots{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:14px;
-    }
-
-    .shot{
-      min-height:180px;
-      border-radius:22px;
-      position:relative;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.1);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
-        #10264e;
-      padding:14px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-    }
-
-    .shot::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,.12), transparent 18%),
-        radial-gradient(circle at 80% 30%, rgba(247,181,0,.12), transparent 20%);
-      pointer-events:none;
-    }
-
-    .shot-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      position:relative;
-      z-index:1;
-    }
-
-    .badge{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      background:rgba(255,255,255,.09);
-      border:1px solid rgba(255,255,255,.12);
-      color:#eef5ff;
-    }
-
-    .emoji{
-      font-size:34px;
-      filter:drop-shadow(0 8px 10px rgba(0,0,0,.25));
-    }
-
-    .scene{
-      flex:1;
-      position:relative;
-      z-index:1;
-      display:flex;
-      align-items:flex-end;
-      justify-content:center;
-      gap:8px;
-      padding-bottom:8px;
-    }
-
-    .tower{
-      width:42px;
-      height:95px;
-      border-radius:12px 12px 8px 8px;
-      background:linear-gradient(180deg,#7d8797,#4e5766);
-      box-shadow:inset 0 0 0 2px rgba(255,255,255,.08);
-    }
-
-    .tower.small{ height:60px; width:34px; }
-    .tower.medium{ height:78px; width:36px; }
-    .tower.tall{ height:110px; width:46px; }
-
-    .coin{
-      width:18px;
-      height:18px;
-      background:radial-gradient(circle at 35% 35%, #ffe68b, #f2ae00);
-      border-radius:50%;
-      box-shadow:0 0 12px rgba(247,181,0,.35);
-      position:absolute;
-    }
-
-    .coin.c1{ top:28px; left:24px; }
-    .coin.c2{ top:56px; right:24px; }
-    .coin.c3{ bottom:64px; left:50%; transform:translateX(-50%); }
-
-    .shot h4{
-      position:relative;
-      z-index:1;
-      font-size:16px;
-      margin-top:10px;
-      margin-bottom:6px;
-    }
-
-    .shot p{
-      position:relative;
-      z-index:1;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .info-box{
-      padding:22px;
-    }
-
-    .game-list{
-      display:grid;
-      gap:12px;
-      margin-top:8px;
-    }
-
-    .game-item{
-      display:flex;
-      align-items:flex-start;
-      gap:12px;
-      padding:14px;
-      border-radius:18px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.04);
-    }
-
-    .game-icon{
-      min-width:42px;
-      height:42px;
-      border-radius:14px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(247,181,0,.14);
-      font-size:22px;
-    }
-
-    .game-item h5{
-      font-size:16px;
-      margin-bottom:5px;
-    }
-
-    .game-item p{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.8;
-    }
-
-    .footer-note{
-      margin-top:20px;
-      text-align:center;
-      color:#aebddb;
-      font-size:13px;
-      line-height:1.8;
-    }
-
-    @media (max-width: 980px){
-      .hero,
-      .sections{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media (max-width: 640px){
-      .stats,
-      .shots{
-        grid-template-columns:1fr;
-      }
-
-      .hero-left,
-      .hero-right,
-      .gallery,
-      .info-box{
-        border-radius:22px;
-      }
-
-      .page{
-        padding:16px 12px 30px;
-      }
-
-      .title-ar{
-        font-size:20px;
-      }
-    }
-  </style>
 </head>
+
 <body>
-  <div class="bg"></div>
 
-  <div class="page">
-    <section class="hero">
-      <div class="hero-left">
-        <div class="tag">مسابقة الصف الحادي عشر المتقدم</div>
-        <h1 class="title-en">Explorer’s <span>Math Tower</span></h1>
-        <div class="title-ar">برج المستكشف الرياضي</div>
-        <p class="desc">
-          استعد لمغامرة تعليمية ممتعة داخل برج أثري مليء بالمنصات والصناديق والتحديات.
-          في كل محاولة ستواجه أسئلة من التباديل والتوافيق ونظرية ذات الحدين، وكلما أجبت أسرع حصلت على نقاط أعلى وفرصة أفضل للوصول إلى المراكز الأولى في صفك.
-        </p>
+<div class="container">
 
-        <div class="stats">
-          <div class="stat">
-            <strong>٣</strong>
-            <span>محاولات لكل متسابق</span>
-          </div>
-          <div class="stat">
-            <strong>٥</strong>
-            <span>أسئلة في كل محاولة</span>
-          </div>
-          <div class="stat">
-            <strong>٣٠</strong>
-            <span>ثانية لكل سؤال</span>
-          </div>
-        </div>
-      </div>
+<h1>Explorer Math Tower</h1>
+<h2>برج التحدي الرياضي</h2>
 
-      <div class="hero-right">
-        <div class="card-title">تسجيل الدخول إلى التحدي</div>
-        <div class="card-sub">
-          أدخل بياناتك ثم ابدأ رحلتك داخل البرج. سيتم احتساب أفضل نتيجة لك في الترتيب النهائي داخل صفك.
-        </div>
+<div class="game-scene">
 
-        <div class="form-group">
-          <label class="label" for="name">اسم الطالب</label>
-          <input class="input" id="name" type="text" placeholder="اكتب اسمك الكامل">
-        </div>
+<div class="tower"></div>
 
-        <div class="form-group">
-          <label class="label" for="email">البريد الإلكتروني</label>
-          <input class="input" id="email" type="email" placeholder="اكتب بريدك الإلكتروني">
-        </div>
+<div class="platform p1"></div>
+<div class="platform p2"></div>
+<div class="platform p3"></div>
 
-        <div class="form-group">
-          <label class="label" for="class">الصف</label>
-          <select class="select" id="class">
-            <option value="">اختر الصف</option>
-            <option value="11/3">١١/٣</option>
-            <option value="11/4">١١/٤</option>
-          </select>
-        </div>
+<div class="player"></div>
 
-        <div class="note">
-          مسموح حاليًا بتسجيل بريد واحد مرة واحدة على هذا الجهاز. لاحقًا سنربط النظام بقاعدة بيانات كاملة لعرض النتائج ولوحة المعلم بشكل مباشر.
-        </div>
+<div class="tree t1"></div>
+<div class="tree t2"></div>
 
-        <button class="cta" onclick="startGame()">ابدأ المغامرة</button>
-        <div id="message" class="message"></div>
-      </div>
-    </section>
+<div class="treasure"></div>
 
-    <section class="sections">
-      <div class="gallery">
-        <div class="section-title">مشاهد من اللعبة</div>
-        <div class="section-sub">
-          هذه مجرد لمحة بصرية للحماس قبل الدخول. داخل اللعبة ستجد برجًا، منصات، كنوزًا، وبوابات لا تُفتح إلا بالإجابة الصحيحة.
-        </div>
+<div class="coin c1"></div>
+<div class="coin c2"></div>
+<div class="coin c3"></div>
 
-        <div class="shots">
-          <div class="shot">
-            <div class="shot-top">
-              <span class="badge">تسلّق المنصات</span>
-              <span class="emoji">🧭</span>
-            </div>
-            <div class="scene">
-              <div class="tower small"></div>
-              <div class="tower medium"></div>
-              <div class="tower tall"></div>
-              <div class="coin c1"></div>
-              <div class="coin c2"></div>
-            </div>
-            <h4>صعود سريع داخل البرج</h4>
-            <p>المستكشف يتحرك بين المنصات ويبحث عن الطريق الأسرع للوصول للأعلى.</p>
-          </div>
+</div>
 
-          <div class="shot">
-            <div class="shot-top">
-              <span class="badge">أسئلة مفاجئة</span>
-              <span class="emoji">❓</span>
-            </div>
-            <div class="scene">
-              <div class="tower medium"></div>
-              <div class="tower small"></div>
-              <div class="tower medium"></div>
-              <div class="coin c3"></div>
-            </div>
-            <h4>بوابات لا تُفتح إلا بالحساب</h4>
-            <p>بعض المراحل تتطلب إجابة صحيحة لتكمل الطريق أو تحصل على ميزة داخل الجولة.</p>
-          </div>
+<div class="form">
 
-          <div class="shot">
-            <div class="shot-top">
-              <span class="badge">كنوز ومكافآت</span>
-              <span class="emoji">🏆</span>
-            </div>
-            <div class="scene">
-              <div class="tower tall"></div>
-              <div class="tower small"></div>
-              <div class="tower medium"></div>
-            </div>
-            <h4>مكافأة للسرعة والدقة</h4>
-            <p>كلما أجبت بسرعة أكبر حصلت على نقاط أعلى، وهذا قد يصنع الفارق في الترتيب.</p>
-          </div>
+<input id="name" placeholder="اسم الطالب">
 
-          <div class="shot">
-            <div class="shot-top">
-              <span class="badge">المراكز الأولى</span>
-              <span class="emoji">🥇</span>
-            </div>
-            <div class="scene">
-              <div class="tower medium"></div>
-              <div class="tower tall"></div>
-              <div class="tower small"></div>
-            </div>
-            <h4>تنافس على منصة التتويج</h4>
-            <p>في نهاية الجولة يظهر الأوائل في كل صف، ويحصل الأول والثاني والثالث على جوائزك الخاصة.</p>
-          </div>
-        </div>
-      </div>
+<input id="email" placeholder="البريد الإلكتروني">
 
-      <div class="info-box">
-        <div class="section-title">ماذا ينتظرك داخل التحدي؟</div>
-        <div class="section-sub">
-          صممت اللعبة لتكون ممتعة وواضحة وسريعة، وفي الوقت نفسه تقيس الفهم الحقيقي للطالب.
-        </div>
+<select id="class">
 
-        <div class="game-list">
-          <div class="game-item">
-            <div class="game-icon">🎮</div>
-            <div>
-              <h5>لعبة قصيرة وليست مملة</h5>
-              <p>كل محاولة سريعة وتحتوي على ٥ أسئلة فقط حتى يبقى الحماس موجودًا من البداية حتى النهاية.</p>
-            </div>
-          </div>
+<option value="">اختر الصف</option>
+<option>١١ / ٣</option>
+<option>١١ / ٤</option>
 
-          <div class="game-item">
-            <div class="game-icon">📚</div>
-            <div>
-              <h5>أسئلة من المنهج نفسه</h5>
-              <p>الأسئلة ستكون من التباديل والتوافيق ونظرية ذات الحدين وبنفس المستوى الذي تريده للصف الحادي عشر المتقدم.</p>
-            </div>
-          </div>
+</select>
 
-          <div class="game-item">
-            <div class="game-icon">⚡</div>
-            <div>
-              <h5>السرعة تفيدك</h5>
-              <p>لا يوجد ضغط ظالم على الطالب، لكن من يجيب أسرع سيستفيد أكثر في النقاط والزمن داخل الجولة.</p>
-            </div>
-          </div>
+<button onclick="startGame()">ابدأ اللعب</button>
 
-          <div class="game-item">
-            <div class="game-icon">🏅</div>
-            <div>
-              <h5>ترتيب خاص لكل صف</h5>
-              <p>سيكون هناك ترتيب مستقل لطلاب ١١/٣ وترتيب مستقل لطلاب ١١/٤، مع إعلان المراكز الثلاثة الأولى لكل صف.</p>
-            </div>
-          </div>
-        </div>
+</div>
 
-        <div class="footer-note">
-          العنوان بالإنجليزية لإعطاء هوية قوية للعبة، أما المحتوى فمكتوب بالعربية ليكون واضحًا ومناسبًا للطلاب.
-        </div>
-      </div>
-    </section>
-  </div>
+<p class="note">
+أجب بسرعة للحصول على أعلى النقاط
+</p>
 
-  <script>
-    function showMessage(text, type){
-      const box = document.getElementById("message");
-      box.textContent = text;
-      box.className = "message " + type;
-    }
+</div>
 
-    function startGame(){
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim().toLowerCase();
-      const className = document.getElementById("class").value;
+<script>
 
-      if(!name || !email || !className){
-        showMessage("يرجى إدخال جميع البيانات قبل بدء اللعبة.", "error");
-        return;
-      }
+function startGame(){
 
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailPattern.test(email)){
-        showMessage("يرجى إدخال بريد إلكتروني صحيح.", "error");
-        return;
-      }
+let name=document.getElementById("name").value;
+let email=document.getElementById("email").value;
+let cls=document.getElementById("class").value;
 
-      const registeredEmails = JSON.parse(localStorage.getItem("registeredEmails") || "[]");
+if(name=="" || email=="" || cls==""){
+alert("أدخل جميع البيانات");
+return;
+}
 
-      if(registeredEmails.includes(email)){
-        showMessage("هذا البريد تم استخدامه من قبل على هذا الجهاز.", "error");
-        return;
-      }
+let emails=JSON.parse(localStorage.getItem("emails")||"[]");
 
-      registeredEmails.push(email);
-      localStorage.setItem("registeredEmails", JSON.stringify(registeredEmails));
+if(emails.includes(email)){
+alert("هذا البريد مسجل مسبقاً");
+return;
+}
 
-      localStorage.setItem("playerName", name);
-      localStorage.setItem("playerEmail", email);
-      localStorage.setItem("playerClass", className);
+emails.push(email);
 
-      showMessage("تم التسجيل بنجاح. جاري الانتقال إلى اللعبة...", "success");
+localStorage.setItem("emails",JSON.stringify(emails));
 
-      setTimeout(() => {
-        window.location.href = "game.html";
-      }, 900);
-    }
-  </script>
+localStorage.setItem("player",name);
+localStorage.setItem("class",cls);
+
+alert("تم التسجيل بنجاح");
+
+window.location="game.html";
+
+}
+
+</script>
+
 </body>
 </html>
