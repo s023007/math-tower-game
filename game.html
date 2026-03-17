@@ -23,7 +23,6 @@
       --gold2:#ffd860;
       --green:#8bf0a7;
       --red:#ff8a8a;
-      --blue:#89c3ff;
       --shadow:0 18px 40px rgba(0,0,0,.30);
     }
 
@@ -36,9 +35,9 @@
 
     .page{
       width:94%;
-      max-width:850px;
+      max-width:900px;
       margin:0 auto;
-      padding:16px 0 30px;
+      padding:16px 0 28px;
     }
 
     .topbar{
@@ -106,20 +105,30 @@
 
     .scene{
       position:relative;
-      height:360px;
+      width:100%;
+      height:520px;
       border-radius:24px;
       overflow:hidden;
       border:1px solid var(--line);
       background:
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
+        linear-gradient(180deg, rgba(6,20,47,.14), rgba(6,20,47,.30)),
         url("images/tower_game_scene.png") center/cover no-repeat;
       margin-bottom:16px;
+      touch-action:none;
     }
 
-    .scene-overlay{
+    .goal{
       position:absolute;
-      inset:0;
-      background:linear-gradient(180deg, rgba(6,20,47,.18), rgba(6,20,47,.28));
+      left:16px;
+      top:16px;
+      z-index:4;
+      background:rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.12);
+      color:#fff4c2;
+      padding:10px 14px;
+      border-radius:16px;
+      font-size:14px;
+      box-shadow:var(--shadow);
     }
 
     .platform{
@@ -131,36 +140,16 @@
       z-index:2;
     }
 
-    .p1{ width:110px; right:20px; bottom:52px; }
-    .p2{ width:120px; right:150px; bottom:118px; }
-    .p3{ width:100px; right:40px; bottom:182px; }
-    .p4{ width:120px; right:180px; bottom:252px; }
-    .p5{ width:95px; right:60px; bottom:314px; }
-
     .player{
       position:absolute;
-      width:42px;
-      height:62px;
-      right:52px;
-      bottom:66px;
+      width:44px;
+      height:66px;
       z-index:3;
-      transition:all .45s ease;
-    }
-
-    .player .head{
-      width:26px;
-      height:26px;
-      background:#ffd68f;
-      border-radius:50%;
-      margin:0 auto -2px;
-      position:relative;
-      z-index:2;
-      border:2px solid rgba(0,0,0,.08);
     }
 
     .player .hat{
       position:absolute;
-      top:-4px;
+      top:0;
       left:50%;
       transform:translateX(-50%);
       width:34px;
@@ -168,6 +157,17 @@
       background:#c28b2c;
       border-radius:16px 16px 8px 8px;
       z-index:3;
+    }
+
+    .player .head{
+      width:26px;
+      height:26px;
+      background:#ffd68f;
+      border-radius:50%;
+      margin:8px auto -2px;
+      position:relative;
+      z-index:2;
+      border:2px solid rgba(0,0,0,.08);
     }
 
     .player .body{
@@ -194,22 +194,25 @@
       border-radius:4px;
     }
 
-    .goal{
-      position:absolute;
-      left:18px;
-      top:16px;
-      z-index:2;
-      background:rgba(0,0,0,.26);
-      border:1px solid rgba(255,255,255,.12);
-      color:#fff4c2;
-      padding:10px 14px;
-      border-radius:16px;
-      font-size:14px;
-      box-shadow:var(--shadow);
+    .controls{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .ctrl{
+      border:none;
+      border-radius:18px;
+      padding:14px;
+      font-size:26px;
+      font-weight:800;
+      background:#eef3fc;
+      color:#111;
     }
 
     .progress-wrap{
-      margin-top:4px;
+      margin-top:14px;
       margin-bottom:12px;
     }
 
@@ -237,12 +240,25 @@
       transition:width .3s ease;
     }
 
+    .question-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(2,8,25,.74);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:999;
+      padding:16px;
+    }
+
     .question-card{
-      background:rgba(255,255,255,.05);
+      width:100%;
+      max-width:720px;
+      background:linear-gradient(180deg,var(--card2),var(--card));
       border:1px solid var(--line);
-      border-radius:22px;
+      border-radius:24px;
       padding:18px;
-      margin-top:10px;
+      box-shadow:var(--shadow);
     }
 
     .question-top{
@@ -290,11 +306,6 @@
       cursor:pointer;
       background:#f4f6fb;
       color:#111;
-      transition:.15s ease;
-    }
-
-    .option-btn:hover{
-      transform:translateY(-1px);
     }
 
     .option-btn.correct{
@@ -395,23 +406,18 @@
       .topbar{
         grid-template-columns:1fr;
       }
-
       .question-text{
         font-size:20px;
       }
-
       .option-btn{
         font-size:22px;
       }
-
       .finish-grid{
         grid-template-columns:1fr;
       }
-
       .scene{
-        height:320px;
+        height:500px;
       }
-
       .game-title{
         font-size:24px;
       }
@@ -434,23 +440,22 @@
 
     <div class="main-card" id="gameCard">
       <div class="game-header">
-        <div class="game-title">مرحلة التحدي</div>
+        <div class="game-title">تسلّق البرج</div>
         <div class="small-badges">
           <div class="badge">النقاط: <span id="score">٠</span></div>
           <div class="badge">المحاولة: <span id="attemptView">١</span> / ٣</div>
         </div>
       </div>
 
-      <div class="scene">
-        <div class="scene-overlay"></div>
+      <div class="scene" id="scene">
+        <div class="goal">🏁 الهدف: الوصول إلى القمة</div>
 
-        <div class="goal">🏁 الوصول إلى القمة</div>
-
-        <div class="platform p1"></div>
-        <div class="platform p2"></div>
-        <div class="platform p3"></div>
-        <div class="platform p4"></div>
-        <div class="platform p5"></div>
+        <div class="platform" style="width:140px; right:20px; bottom:48px;"></div>
+        <div class="platform" style="width:110px; right:190px; bottom:122px;"></div>
+        <div class="platform" style="width:120px; right:44px; bottom:196px;"></div>
+        <div class="platform" style="width:110px; right:210px; bottom:272px;"></div>
+        <div class="platform" style="width:120px; right:56px; bottom:348px;"></div>
+        <div class="platform" style="width:105px; right:220px; bottom:426px;"></div>
 
         <div class="player" id="player">
           <div class="hat"></div>
@@ -458,6 +463,12 @@
           <div class="body"></div>
           <div class="legs"><span></span><span></span></div>
         </div>
+      </div>
+
+      <div class="controls">
+        <button class="ctrl" id="leftBtn">→</button>
+        <button class="ctrl" id="jumpBtn">↑</button>
+        <button class="ctrl" id="rightBtn">←</button>
       </div>
 
       <div class="progress-wrap">
@@ -468,19 +479,6 @@
         <div class="progress">
           <div class="progress-bar" id="progressBar"></div>
         </div>
-      </div>
-
-      <div class="question-card">
-        <div class="question-top">
-          <div class="question-number" id="questionNumber">السؤال ١ من ٥</div>
-          <div class="timer">الوقت: <span id="timeLeft">٣٠</span> ثانية</div>
-        </div>
-
-        <div class="question-text" id="questionText">...</div>
-
-        <div class="options" id="optionsBox"></div>
-
-        <div class="status" id="statusText"></div>
       </div>
     </div>
 
@@ -515,77 +513,73 @@
 
   </div>
 
+  <div class="question-overlay" id="questionOverlay">
+    <div class="question-card">
+      <div class="question-top">
+        <div class="question-number" id="questionNumber">السؤال ١ من ٥</div>
+        <div class="timer">الوقت: <span id="timeLeft">٣٠</span> ثانية</div>
+      </div>
+
+      <div class="question-text" id="questionText">...</div>
+
+      <div class="options" id="optionsBox"></div>
+
+      <div class="status" id="statusText"></div>
+    </div>
+  </div>
+
   <script>
     const questions = [
-      {
-        q: "بكم طريقة يمكن اختيار ٣ عناصر من ٧ عناصر؟",
-        options: ["٣٥", "٢١", "٢١٠"],
-        answer: "٣٥"
-      },
-      {
-        q: "عدد تباديل ٣ عناصر من ٧ عناصر مختلفة:",
-        options: ["٢١٠", "٣٥", "١٢٠"],
-        answer: "٢١٠"
-      },
-      {
-        q: "بكم طريقة يمكن اختيار ٢ طالبين من ٦ طلاب؟",
-        options: ["١٥", "١٢", "٣٠"],
-        answer: "١٥"
-      },
-      {
-        q: "عدد تباديل ٤ عناصر من ٦ عناصر مختلفة:",
-        options: ["٣٦٠", "١٥", "٧٢٠"],
-        answer: "٣٦٠"
-      },
-      {
-        q: "عدد الحدود في مفكوك (١ + س)^٥",
-        options: ["٥", "٦", "٧"],
-        answer: "٦"
-      },
-      {
-        q: "مجموع معاملات مفكوك (١ + س)^٦",
-        options: ["٣٢", "٦٤", "١٢٨"],
-        answer: "٦٤"
-      },
-      {
-        q: "عدد تباديل ٥ عناصر من ٧ عناصر مختلفة:",
-        options: ["٢٥٢٠", "٨٤٠", "٢١"],
-        answer: "٢٥٢٠"
-      },
-      {
-        q: "بكم طريقة يمكن اختيار ٤ عناصر من ٨ عناصر؟",
-        options: ["٧٠", "٥٦", "١٦٨٠"],
-        answer: "٧٠"
-      },
-      {
-        q: "عدد طرق ترتيب ٤ كتب مختلفة في صف واحد:",
-        options: ["٢٤", "١٦", "٤"],
-        answer: "٢٤"
-      },
-      {
-        q: "عدد طرق ترتيب ٣ كتب من ٥ كتب مختلفة:",
-        options: ["٦٠", "٢٠", "١٠"],
-        answer: "٦٠"
-      },
-      {
-        q: "عدد الحدود في مفكوك (١ + س)^٧",
-        options: ["٧", "٨", "٩"],
-        answer: "٨"
-      },
-      {
-        q: "مجموع معاملات مفكوك (٢ص + ٣)^٤",
-        options: ["٢٤", "٦٢٥", "١٢٩٦"],
-        answer: "٦٢٥"
-      }
+      { q: "بكم طريقة يمكن اختيار ٣ عناصر من ٧ عناصر؟", options: ["٣٥", "٢١", "٢١٠"], answer: "٣٥" },
+      { q: "عدد تباديل ٣ عناصر من ٧ عناصر مختلفة:", options: ["٢١٠", "٣٥", "١٢٠"], answer: "٢١٠" },
+      { q: "بكم طريقة يمكن اختيار ٢ طالبين من ٦ طلاب؟", options: ["١٥", "١٢", "٣٠"], answer: "١٥" },
+      { q: "عدد تباديل ٤ عناصر من ٦ عناصر مختلفة:", options: ["٣٦٠", "١٥", "٧٢٠"], answer: "٣٦٠" },
+      { q: "عدد الحدود في مفكوك (١ + س)^٥", options: ["٥", "٦", "٧"], answer: "٦" },
+      { q: "مجموع معاملات مفكوك (١ + س)^٦", options: ["٣٢", "٦٤", "١٢٨"], answer: "٦٤" },
+      { q: "عدد تباديل ٥ عناصر من ٧ عناصر مختلفة:", options: ["٢٥٢٠", "٨٤٠", "٢١"], answer: "٢٥٢٠" },
+      { q: "بكم طريقة يمكن اختيار ٤ عناصر من ٨ عناصر؟", options: ["٧٠", "٥٦", "١٦٨٠"], answer: "٧٠" },
+      { q: "عدد طرق ترتيب ٤ كتب مختلفة في صف واحد:", options: ["٢٤", "١٦", "٤"], answer: "٢٤" },
+      { q: "عدد طرق ترتيب ٣ كتب من ٥ كتب مختلفة:", options: ["٦٠", "٢٠", "١٠"], answer: "٦٠" },
+      { q: "عدد الحدود في مفكوك (١ + س)^٧", options: ["٧", "٨", "٩"], answer: "٨" },
+      { q: "مجموع معاملات مفكوك (٢ص + ٣)^٤", options: ["٢٤", "٦٢٥", "١٢٩٦"], answer: "٦٢٥" }
     ];
+
+    const scene = document.getElementById("scene");
+    const player = document.getElementById("player");
+    const overlay = document.getElementById("questionOverlay");
 
     let selectedQuestions = [];
     let currentQuestion = 0;
     let score = 0;
-    let timeLeft = 30;
-    let timer = null;
     let correctAnswers = 0;
-    let locked = false;
+    let timer = null;
+    let timeLeft = 30;
+    let questionOpen = false;
+    let gameEnded = false;
+
+    const playerState = {
+      x: 36,
+      y: 48 + 66,
+      width: 44,
+      height: 66,
+      vx: 0,
+      vy: 0,
+      speed: 5,
+      jump: 14,
+      gravity: 0.65,
+      onGround: false
+    };
+
+    const keys = { left: false, right: false };
+
+    const platforms = [
+      { x: 20,  y: 48,  w: 140, h: 16 },
+      { x: 190, y: 122, w: 110, h: 16 },
+      { x: 44,  y: 196, w: 120, h: 16 },
+      { x: 210, y: 272, w: 110, h: 16 },
+      { x: 56,  y: 348, w: 120, h: 16 },
+      { x: 220, y: 426, w: 105, h: 16 }
+    ];
 
     const playerName = localStorage.getItem("playerName") || "طالب";
     const playerClass = localStorage.getItem("playerClass") || "—";
@@ -631,20 +625,9 @@
       return arr;
     }
 
-    function movePlayer(step){
-      const player = document.getElementById("player");
-      const positions = [
-        { right: 52, bottom: 66 },
-        { right: 182, bottom: 132 },
-        { right: 72, bottom: 196 },
-        { right: 212, bottom: 266 },
-        { right: 92, bottom: 328 }
-      ];
-
-      if(step < positions.length){
-        player.style.right = positions[step].right + "px";
-        player.style.bottom = positions[step].bottom + "px";
-      }
+    function updatePlayerView(){
+      player.style.right = playerState.x + "px";
+      player.style.bottom = (playerState.y - playerState.height) + "px";
     }
 
     function updateTopInfo(){
@@ -670,19 +653,23 @@
       }, 1000);
     }
 
-    function timeUp(){
-      locked = true;
-      document.getElementById("statusText").textContent = "انتهى الوقت. ننتقل إلى السؤال التالي.";
-      document.getElementById("statusText").className = "status bad";
+    function openQuestion(){
+      if(questionOpen || gameEnded) return;
+      questionOpen = true;
+      playerState.vx = 0;
+      playerState.vy = 0;
+      overlay.style.display = "flex";
+      loadQuestion();
+    }
 
-      setTimeout(() => {
-        currentQuestion++;
-        nextStep();
-      }, 1100);
+    function closeQuestion(){
+      overlay.style.display = "none";
+      questionOpen = false;
+      document.getElementById("statusText").textContent = "";
+      document.getElementById("statusText").className = "status";
     }
 
     function loadQuestion(){
-      locked = false;
       updateTopInfo();
 
       const q = selectedQuestions[currentQuestion];
@@ -690,8 +677,6 @@
         "السؤال " + toArabicNumber(currentQuestion + 1) + " من " + toArabicNumber(5);
 
       document.getElementById("questionText").textContent = q.q;
-      document.getElementById("statusText").textContent = "";
-      document.getElementById("statusText").className = "status";
 
       const optionsBox = document.getElementById("optionsBox");
       optionsBox.innerHTML = "";
@@ -707,15 +692,31 @@
       startTimer();
     }
 
+    function timeUp(){
+      document.getElementById("statusText").textContent = "انتهى الوقت. حاول مرة أخرى في السؤال التالي.";
+      document.getElementById("statusText").className = "status bad";
+
+      setTimeout(() => {
+        currentQuestion++;
+        if(currentQuestion >= 5){
+          finishAttempt();
+        } else {
+          respawn();
+          closeQuestion();
+        }
+      }, 1100);
+    }
+
     function checkAnswer(selected, btn){
-      if(locked) return;
-      locked = true;
+      if(!questionOpen) return;
       clearInterval(timer);
 
       const q = selectedQuestions[currentQuestion];
       const buttons = document.querySelectorAll(".option-btn");
+      buttons.forEach(b => b.disabled = true);
 
       let gained = 0;
+
       if(selected === q.answer){
         if(timeLeft >= 25){
           gained = 15;
@@ -729,7 +730,6 @@
 
         score += gained;
         correctAnswers++;
-
         btn.classList.add("correct");
         document.getElementById("statusText").textContent =
           "إجابة صحيحة. حصلت على " + toArabicNumber(gained) + " نقاط.";
@@ -741,7 +741,6 @@
             b.classList.add("correct");
           }
         });
-
         document.getElementById("statusText").textContent =
           "إجابة غير صحيحة. الإجابة الصحيحة هي: " + q.answer;
         document.getElementById("statusText").className = "status bad";
@@ -749,23 +748,28 @@
 
       setTimeout(() => {
         currentQuestion++;
-        nextStep();
-      }, 1300);
+        if(currentQuestion >= 5){
+          finishAttempt();
+        } else {
+          respawn();
+          closeQuestion();
+          updateTopInfo();
+        }
+      }, 1200);
     }
 
-    function nextStep(){
-      updateTopInfo();
-
-      if(currentQuestion < 5){
-        movePlayer(currentQuestion);
-        loadQuestion();
-      } else {
-        finishAttempt();
-      }
+    function respawn(){
+      playerState.x = 36;
+      playerState.y = 48 + 66;
+      playerState.vx = 0;
+      playerState.vy = 0;
+      updatePlayerView();
     }
 
     function finishAttempt(){
+      gameEnded = true;
       clearInterval(timer);
+      overlay.style.display = "none";
 
       let used = getUsedAttempts() + 1;
       setUsedAttempts(used);
@@ -803,6 +807,91 @@
       window.location.href = "index.html";
     }
 
+    function jump(){
+      if(questionOpen || gameEnded) return;
+      if(playerState.onGround){
+        playerState.vy = playerState.jump;
+        playerState.onGround = false;
+      }
+    }
+
+    function gameLoop(){
+      if(!questionOpen && !gameEnded){
+        if(keys.left) playerState.vx =  playerState.speed;
+        else if(keys.right) playerState.vx = -playerState.speed;
+        else playerState.vx = 0;
+
+        playerState.x += playerState.vx;
+        playerState.y += playerState.vy;
+        playerState.vy -= playerState.gravity;
+
+        if(playerState.x < 0) playerState.x = 0;
+        if(playerState.x > scene.clientWidth - playerState.width) {
+          playerState.x = scene.clientWidth - playerState.width;
+        }
+
+        playerState.onGround = false;
+
+        const playerBottom = playerState.y - playerState.height;
+        const prevBottom = playerBottom - playerState.vy;
+
+        for(const p of platforms){
+          const withinX =
+            playerState.x + playerState.width > p.x &&
+            playerState.x < p.x + p.w;
+
+          const fallingOnto =
+            playerState.vy <= 0 &&
+            prevBottom >= p.y + p.h &&
+            playerBottom <= p.y + p.h + 6;
+
+          if(withinX && fallingOnto){
+            playerState.y = p.y + p.h + playerState.height;
+            playerState.vy = 0;
+            playerState.onGround = true;
+          }
+        }
+
+        if(playerState.y - playerState.height > scene.clientHeight + 10){
+          openQuestion();
+        }
+
+        if(playerState.y >= 490){
+          finishAttempt();
+        }
+
+        updatePlayerView();
+      }
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "ArrowLeft") keys.left = true;
+      if(e.key === "ArrowRight") keys.right = true;
+      if(e.key === "ArrowUp" || e.key === " "){
+        e.preventDefault();
+        jump();
+      }
+    });
+
+    document.addEventListener("keyup", (e) => {
+      if(e.key === "ArrowLeft") keys.left = false;
+      if(e.key === "ArrowRight") keys.right = false;
+    });
+
+    document.getElementById("leftBtn").addEventListener("touchstart", () => keys.left = true);
+    document.getElementById("leftBtn").addEventListener("touchend", () => keys.left = false);
+    document.getElementById("leftBtn").addEventListener("mousedown", () => keys.left = true);
+    document.getElementById("leftBtn").addEventListener("mouseup", () => keys.left = false);
+
+    document.getElementById("rightBtn").addEventListener("touchstart", () => keys.right = true);
+    document.getElementById("rightBtn").addEventListener("touchend", () => keys.right = false);
+    document.getElementById("rightBtn").addEventListener("mousedown", () => keys.right = true);
+    document.getElementById("rightBtn").addEventListener("mouseup", () => keys.right = false);
+
+    document.getElementById("jumpBtn").addEventListener("click", jump);
+
     function initGame(){
       if(getUsedAttempts() >= 3){
         document.getElementById("gameCard").style.display = "none";
@@ -822,9 +911,9 @@
       }
 
       selectedQuestions = shuffle(questions).slice(0, 5);
+      respawn();
       updateTopInfo();
-      movePlayer(0);
-      loadQuestion();
+      gameLoop();
     }
 
     initGame();
